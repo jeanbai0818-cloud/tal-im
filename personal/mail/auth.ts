@@ -93,7 +93,8 @@ async function bootstrapMailSession(identity: YachIdentity): Promise<MailSession
 
 // ── Public API ────────────────────────────────────────────────────────────────
 
-export async function getMailSession(): Promise<MailSession> {
+/** Read and validate the on-disk session cache. No network I/O. */
+async function tryLoadCachedMailSession(): Promise<MailSession | null> {
   try {
     const raw = await fs.readFile(SESSION_PATH, 'utf8');
     const cached = JSON.parse(raw) as MailSession;
@@ -101,8 +102,14 @@ export async function getMailSession(): Promise<MailSession> {
       return cached;
     }
   } catch {
-    // cache miss
+    // cache miss or parse error
   }
+  return null;
+}
+
+export async function getMailSession(): Promise<MailSession> {
+  const cached = await tryLoadCachedMailSession();
+  if (cached) return cached;
 
   const identity = await loadIdentity();
   if (!identity) throw new Error('未找到知音楼登录凭证，请先完成扫码登录（openclaw config）');

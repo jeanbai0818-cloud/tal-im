@@ -169,7 +169,8 @@ async function bootstrapSession(): Promise<MeetingRoomSession> {
   return session;
 }
 
-export async function getMeetingRoomSession(): Promise<MeetingRoomSession> {
+/** Read and validate the on-disk session cache. No network I/O. */
+async function tryLoadCachedMeetingRoomSession(): Promise<MeetingRoomSession | null> {
   try {
     const raw = await fs.readFile(SESSION_PATH, 'utf8');
     const cached = JSON.parse(raw) as MeetingRoomSession;
@@ -177,7 +178,13 @@ export async function getMeetingRoomSession(): Promise<MeetingRoomSession> {
       return cached;
     }
   } catch {
-    // cache miss
+    // cache miss or parse error
   }
+  return null;
+}
+
+export async function getMeetingRoomSession(): Promise<MeetingRoomSession> {
+  const cached = await tryLoadCachedMeetingRoomSession();
+  if (cached) return cached;
   return bootstrapSession();
 }
