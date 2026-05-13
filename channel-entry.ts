@@ -54,6 +54,7 @@ export default defineChannelPluginEntry({
       'yach_group_remove_members',
       'yach_schedule_cancel',
       'yach_meeting_cancel',
+      'yach_attendance_punch_offduty',
     ];
     for (const toolName of highRisk) {
       api.registerToolMetadata({ toolName, risk: 'high' });
@@ -62,6 +63,7 @@ export default defineChannelPluginEntry({
       'yach_doc_append',
       'yach_personal_doc_append',
       'yach_doc_create',
+      'yach_doc_add_collaborator',
       'yach_group_create',
       'yach_group_add_members',
       'yach_meeting_book',

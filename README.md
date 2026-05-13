@@ -59,8 +59,9 @@ OpenClaw 平台的**知音楼（Zhiyinlou/Yach）**全功能插件，面向好�
 - `yach_group_remove_members` — 移除群成员
 - `yach_schedule_cancel` — 取消日程
 - `yach_meeting_cancel` — 取消会议室预订
+- `yach_attendance_punch_offduty` — 写入考勤打卡记录
 
-以下工具注册为 `risk: medium`，影响范围较小但仍有副作用：`yach_doc_append`、`yach_personal_doc_append`、`yach_doc_create`、`yach_group_create`、`yach_group_add_members`、`yach_meeting_book`、`yach_schedule_create`。
+以下工具注册为 `risk: medium`，影响范围较小但仍有副作用：`yach_doc_append`、`yach_personal_doc_append`、`yach_doc_create`、`yach_doc_add_collaborator`、`yach_group_create`、`yach_group_add_members`、`yach_meeting_book`、`yach_schedule_create`。
 
 ### 4. 个人 QR Session 保护
 
