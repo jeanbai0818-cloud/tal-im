@@ -1,32 +1,23 @@
 /**
- * Mail session auth.
+ * Mail session auth — network bootstrap only.
+ * Session cache reads live in session-cache.ts (no network calls there).
  *
  * Flow: POST /94capi/txmail/login (signed) → get login_url
  *       GET login_url with redirect-following + cookie jar → extract sid
- *       Cache session at ~/.openclaw/identity/mail/session.json
+ *       Persist session to disk via SESSION_PATH
  */
 
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import { STATE_DIR } from 'openclaw/plugin-sdk/state-paths';
 import { loadIdentity } from '../../core/session/identity.js';
 import { buildSign, buildHeaders } from '../../core/shared/crypto.js';
 import { CAPI_BASE, PLUGIN_VERSION } from '../../core/shared/constants.js';
-import { followRedirects, type SimpleCookie } from '../../core/shared/http-cookie.js';
+import { followRedirects } from '../../core/shared/http-cookie.js';
 import type { YachIdentity } from '../../core/shared/types.js';
+import { SESSION_PATH, tryLoadCachedMailSession, type MailSession } from './session-cache.js';
+export type { MailSession };
 
-const SESSION_PATH = path.join(STATE_DIR, 'identity', 'mail', 'session.json');
 const TXMAIL_LOGIN_PATH = '/94capi/txmail/login';
-/** Treat session as stale after 8 hours */
-const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
-
-export type MailSession = {
-  email: string;
-  baseUrl: string;   // e.g. https://mail.qiye.163.com/js6
-  sid: string;
-  cookies: SimpleCookie[];
-  updatedAt: number;
-};
 
 // ── Mail login ────────────────────────────────────────────────────────────────
 
@@ -92,20 +83,6 @@ async function bootstrapMailSession(identity: YachIdentity): Promise<MailSession
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
-
-/** Read and validate the on-disk session cache. No network I/O. */
-async function tryLoadCachedMailSession(): Promise<MailSession | null> {
-  try {
-    const raw = await fs.readFile(SESSION_PATH, 'utf8');
-    const cached = JSON.parse(raw) as MailSession;
-    if (cached.sid && Date.now() - cached.updatedAt < SESSION_TTL_MS) {
-      return cached;
-    }
-  } catch {
-    // cache miss or parse error
-  }
-  return null;
-}
 
 export async function getMailSession(): Promise<MailSession> {
   const cached = await tryLoadCachedMailSession();

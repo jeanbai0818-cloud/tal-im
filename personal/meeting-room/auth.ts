@@ -1,40 +1,29 @@
 /**
- * Meeting-room session auth.
+ * Meeting-room session auth — network bootstrap only.
+ * Session cache reads live in session-cache.ts (no network calls there).
  *
  * Flow: POST /94capi/ucenter/auth/code (signed) → authCode
  *       GET CONTROLLER_APP_LOGIN_URL (redirect:manual) → Location + cookies
  *       Append _authCode to Location → follow redirect chain
  *       followRedirects(PORTAL_LOGIN_URL) → stop at huiyi.tal.com/auth-meeting-login
  *       Extract token/corpid/agentid params → GET MEETING_AUTH_LOGIN_URL
- *       Extract sessionid cookie + userId → cache session
+ *       Extract sessionid cookie + userId → persist session to disk
  */
 
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import { STATE_DIR } from 'openclaw/plugin-sdk/state-paths';
 import { loadIdentity } from '../../core/session/identity.js';
 import { buildSign, buildHeaders } from '../../core/shared/crypto.js';
 import { CAPI_BASE, PLUGIN_VERSION } from '../../core/shared/constants.js';
 import { followRedirects, parseCookies, mergeCookies, buildCookieHeader, type SimpleCookie } from '../../core/shared/http-cookie.js';
-
-const SESSION_PATH = path.join(STATE_DIR, 'identity', 'meeting-room', 'session.json');
-/** Treat session as stale after 12 hours */
-const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
+import { SESSION_PATH, tryLoadCachedMeetingRoomSession, type MeetingRoomSession } from './session-cache.js';
+export type { MeetingRoomSession };
 
 const AUTH_CODE_PATH = '/94capi/ucenter/auth/code';
 const CONTROLLER_APP_LOGIN_URL = 'https://controller.100tal.com:8443/idp/app/login?app_id=app_ipg9oj6pxbvgkzglmuez-l7pop&ins_id=spa_d0e97e32-909d-4162-a68f-58609950a74d&access_type=app&redirect_url=https%3A%2F%2Fhuiyi.tal.com%2Fbooking%2Fbooking%3Fto%3Dbooking%252Fbooking';
 const MEETING_PORTAL_LOGIN_URL = 'https://sso.100tal.com/portal/login/978353613';
 const MEETING_AUTH_LOGIN_URL = 'https://huiyi.tal.com/prod-api/mobile/auth_login';
 const MEETING_BOOKING_URL = 'https://huiyi.tal.com/booking/booking?to=booking%2Fbooking';
-
-export type MeetingRoomSession = {
-  sessionId: string;
-  userId: string;
-  userName: string;
-  workcode: string;
-  cookies: SimpleCookie[];
-  updatedAt: number;
-};
 
 async function requestAuthCode(): Promise<string> {
   const identity = await loadIdentity();
@@ -167,20 +156,6 @@ async function bootstrapSession(): Promise<MeetingRoomSession> {
   await fs.mkdir(path.dirname(SESSION_PATH), { recursive: true });
   await fs.writeFile(SESSION_PATH, JSON.stringify(session, null, 2), 'utf8');
   return session;
-}
-
-/** Read and validate the on-disk session cache. No network I/O. */
-async function tryLoadCachedMeetingRoomSession(): Promise<MeetingRoomSession | null> {
-  try {
-    const raw = await fs.readFile(SESSION_PATH, 'utf8');
-    const cached = JSON.parse(raw) as MeetingRoomSession;
-    if (cached.sessionId && Date.now() - cached.updatedAt < SESSION_TTL_MS) {
-      return cached;
-    }
-  } catch {
-    // cache miss or parse error
-  }
-  return null;
 }
 
 export async function getMeetingRoomSession(): Promise<MeetingRoomSession> {
