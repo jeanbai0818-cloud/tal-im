@@ -10,7 +10,7 @@
   "channelConfigs": {
     "yach": {
       "label": "TAL 知音楼（好未来企业 IM）",
-      "description": "好未来（TAL）企业 IM 知音楼，支持数字伙伴机器人、流式 AI 回复及主动消息推送。",
+      "description": "好未来（TAL）企业 IM 知音楼，支持数字伙伴机器人、流式 AI 回复及主动消息推送。需要凭证：AppKey + AppSecret（必须，知音楼开放平台获取）；QR 扫码 session（可选，用于个人身份工具）。配置完成后请将 dmPolicy 设为 allowlist 以限制访问范围。",
       "schema": {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
