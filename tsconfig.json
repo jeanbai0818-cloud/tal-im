@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": [
+    "index.ts",
+    "channel-entry.ts",
+    "setup-entry.ts",
+    "core/**/*.ts",
+    "personal/**/*.ts",
+    "robot/**/*.ts"
+  ]
+}

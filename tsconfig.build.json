@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "declaration": false,
+    "sourceMap": false,
+    "types": ["node"]
+  },
+  "include": [
+    "index.ts",
+    "channel-entry.ts",
+    "setup-entry.ts",
+    "core/**/*.ts",
+    "personal/**/*.ts",
+    "robot/**/*.ts"
+  ],
+  "exclude": []
+}

@@ -1,0 +1,14 @@
+{
+  "name": "yach-tal-im",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TAL 知音楼（Yach）新架构插件 — core/personal/robot 三层结构",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "exports": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit"
+  }
+}
