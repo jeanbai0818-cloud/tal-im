@@ -219,6 +219,10 @@ npm run typecheck           # 类型检查
 npm run deploy              # 编译 + 安装到生产 ~/.openclaw/
 openclaw gateway restart    # 重启生产网关
 openclaw channels status    # 查看生产频道状态
+
+# Git 推送（必须同时推两个远端）
+git push origin main        # GitLab 内网（主仓库）
+git push github main        # GitHub 公开（https://github.com/jeanbai0818-cloud/tal-im）
 ```
 
 ---
