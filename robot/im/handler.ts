@@ -117,7 +117,7 @@ export async function handleInboundMessage(params: {
       }
     }
   } else {
-    const dmPolicy = accountCfg.dmPolicy ?? 'open';
+    const dmPolicy = accountCfg.dmPolicy ?? 'pairing';
     if (dmPolicy === 'disabled') {
       logger.info(`[yach] blocked DM sender ${senderId} (dmPolicy=disabled)`);
       return;

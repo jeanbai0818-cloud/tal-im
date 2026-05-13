@@ -20,28 +20,31 @@ OpenClaw 平台的**知音楼（Zhiyinlou/Yach）**全功能插件，面向好�
 
 ## 必读：安全配置
 
-**安装完成后，请立即完成以下安全配置，否则任何能给机器人发消息的用户都可以触发高权限操作。**
+### 1. 默认访问控制：扫码配对（pairing）
 
-### 1. 配置访问控制（最重要）
+本插件默认 DM 策略为 **`pairing`（配对模式）**，而非 open。配对模式的工作方式与知音楼扫码验身的原则一致：**陌生用户必须先完成身份确认，才能与机器人交互。**
 
-默认 DM 策略为 `open`（任何人可发消息）。**生产环境必须改为 `allowlist`：**
+**配对流程：**
+1. 未配对用户向机器人发消息 → 机器人自动回复配对申请码
+2. 管理员通过 OpenClaw 审批该申请：`openclaw channels approve`
+3. 审批通过后，该用户才能正常使用机器人
 
-编辑 `~/.openclaw/openclaw.json`，在 `channels.yach` 下添加：
+这与知音楼扫码登录的逻辑相同——显式身份验证 → 授权通过 → 才能访问。
+
+**如需更严格的控制，可改为 allowlist（仅白名单用户）：**
 
 ```json
 {
   "channels": {
     "yach": {
       "dmPolicy": "allowlist",
-      "allowFrom": ["<允许的用户工号或userId>"],
+      "allowFrom": ["<允许的userId或工号>"],
       "groupPolicy": "allowlist",
       "groupAllowFrom": ["<允许的群ID>"]
     }
   }
 }
 ```
-
-然后重启网关：`openclaw gateway restart`
 
 ### 2. 使用最小权限的 Yach 应用
 

@@ -59,7 +59,7 @@ export async function dispatchInboundMessage(params: {
   const sendToUser = isGroup ? `group:${conversationId}` : `user:${senderId}`;
 
   const yachCfg = account.config;
-  const dmPolicy = yachCfg.dmPolicy ?? 'open';
+  const dmPolicy = yachCfg.dmPolicy ?? 'pairing';
   const configuredAllowFrom = [
     ...(yachCfg.allowFrom ?? []).map(String),
     ...(!isGroup && dmPolicy === 'open' ? [senderId] : []),

@@ -176,7 +176,7 @@ export const yachPlugin: ChannelPlugin<ResolvedYachAccount> = {
 
   security: {
     resolveDmPolicy: ({ account, accountId }) => {
-      const policy = account.config.dmPolicy ?? 'open';
+      const policy = account.config.dmPolicy ?? 'pairing';
       const allowFrom = account.config.allowFrom ?? null;
       const isDefault = !accountId || normalizeAccountId(accountId) === DEFAULT_ACCOUNT_ID;
       const basePath = isDefault ? 'channels.yach' : `channels.yach.accounts.${normalizeAccountId(accountId)}`;
