@@ -1,0 +1,91 @@
+{
+  "id": "yach",
+  "channels": ["yach"],
+  "setupEntry": "./dist/setup-entry.js",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  },
+  "channelConfigs": {
+    "yach": {
+      "label": "TAL 知音楼（好未来企业 IM）",
+      "description": "好未来（TAL）企业 IM 知音楼，支持数字伙伴机器人、流式 AI 回复及主动消息推送。",
+      "schema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "enabled": { "type": "boolean" },
+          "name": { "type": "string", "description": "账号显示名称" },
+          "appKey": { "type": "string", "description": "知音楼应用 AppKey" },
+          "appSecret": { "type": "string", "description": "知音楼应用 AppSecret" },
+          "baseUrl": { "type": "string", "description": "知音楼 OAPI 基础 URL" },
+          "webhookPath": { "type": "string", "description": "自定义 Webhook 接收路径" },
+          "typingExpression": { "type": "string", "description": "输入状态表情" },
+          "markdownTableMode": { "type": "string", "enum": ["code", "table"] },
+          "textChunkLimit": { "type": "integer", "minimum": 1 },
+          "chunkMode": { "type": "string", "enum": ["length", "newline"] },
+          "connectionMode": {
+            "type": "string",
+            "enum": ["webhook", "channel"],
+            "description": "消息接收模式：channel=长连接（默认），webhook=HTTP 回调"
+          },
+          "channelAppId": { "type": "string" },
+          "replyMode": {
+            "type": "string",
+            "enum": ["stream", "direct"]
+          },
+          "dmPolicy": {
+            "type": "string",
+            "enum": ["open", "pairing", "allowlist", "disabled"]
+          },
+          "allowFrom": {
+            "type": "array",
+            "items": { "oneOf": [{ "type": "string" }, { "type": "number" }] }
+          },
+          "groupPolicy": {
+            "type": "string",
+            "enum": ["open", "allowlist", "disabled"]
+          },
+          "groupAllowFrom": {
+            "type": "array",
+            "items": { "oneOf": [{ "type": "string" }, { "type": "number" }] }
+          },
+          "commandAllowFrom": {
+            "type": "array",
+            "items": { "oneOf": [{ "type": "string" }, { "type": "number" }] }
+          },
+          "chatHistoryEnabled": { "type": "boolean" },
+          "chatHistoryLimit": { "type": "integer", "minimum": 1 },
+          "toolAuthMode": { "type": "string", "enum": ["app", "user"] },
+          "dynamicAgentCreation": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "enabled": { "type": "boolean" },
+              "workspaceTemplate": { "type": "string" },
+              "agentDirTemplate": { "type": "string" },
+              "maxAgents": { "type": "integer", "minimum": 1 }
+            }
+          },
+          "accounts": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "name": { "type": "string" },
+                "appKey": { "type": "string" },
+                "appSecret": { "type": "string" },
+                "baseUrl": { "type": "string" },
+                "webhookPath": { "type": "string" },
+                "connectionMode": { "type": "string", "enum": ["webhook", "channel"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

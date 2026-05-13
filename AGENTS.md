@@ -4,6 +4,28 @@
 
 ---
 
+## 参考源代码（重要）
+
+遇到任何 API 行为不确定、实现细节不明、或 bug 排查困难时，**先去旧代码看实现**，不要猜测：
+
+> **旧版插件 GitLab 仓库：**
+> `https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin`
+
+关键目录映射（旧 → 新）：
+
+| 旧路径 | 新路径 | 说明 |
+|--------|--------|------|
+| `src/auth-rest/normalize.ts` | `core/auth/qr/client.ts` | QR 轮询、状态解析、身份提取 |
+| `src/qr-login/poll.ts` | `core/auth/qr/poller.ts` | 轮询循环逻辑 |
+| `src/auth-rest/signature.ts` | `core/shared/crypto.ts` | 请求签名、gtoken 计算 |
+| `src/shared/types.ts` | `core/shared/types.ts` | 核心类型定义 |
+| `src/shared/constants.ts` | `core/shared/constants.ts` | 常量（API base URL 等）|
+| `modules/*/` | `robot/*/` | 机器人身份业务功能 |
+
+> 使用 `git clone --depth=1 https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin /tmp/yach-omni-plugin` 获取只读副本（不要污染工作区）。
+
+---
+
 ## 架构速览
 
 ```
@@ -31,11 +53,6 @@ robot/         ← 机器人身份功能层 — 依赖 AppKey/AppSecret
   org/         — 组织架构
   mail/        — 邮件发送
   todo/        — 待办
-
-old/           ← 历史存量层 — 只读参考，禁止修改
-  old/src/     — 原 src/（守护进程、CLI、共享类型等）
-  old/yach/    — 原 yach/（基建实现）
-  old/modules/ — 原 modules/（旧业务功能）
 ```
 
 ---
@@ -43,10 +60,10 @@ old/           ← 历史存量层 — 只读参考，禁止修改
 ## 执行任务前必读
 
 ### 禁止操作
-- ❌ 不得修改 `old/` 下任何文件（只读参考）
 - ❌ 不得在 `core/` 下添加业务逻辑（基建层只放基础设施代码）
 - ❌ 不得修改 `index.ts`、`channel-entry.ts`、`setup-entry.ts` 的 plugin registration 部分
 - ❌ 不得引入新的重量级 npm 依赖
+- ❌ 不得将旧代码 clone 到工作区目录（克隆到 `/tmp/` 看完即扔）
 
 ### 新功能必须在 `personal/` 或 `robot/` 开发
 - 需要个人身份（QR session）→ `personal/[feature]/`
@@ -66,7 +83,7 @@ old/           ← 历史存量层 — 只读参考，禁止修改
 
 ## 新增工具（Tool）标准流程
 
-1. **确认 OAPI 接口**：在 `old/yach/src/oapi/` 找到对应客户端（迁移完成后改为 `core/oapi/`）
+1. **确认 OAPI 接口**：先查旧仓库 `src/oapi/`（见上方 GitLab 参考源），再在 `core/oapi/` 实现
 2. **确认功能归属**：个人身份 → `personal/`，机器人身份 → `robot/`
 3. **创建功能目录**：`[layer]/[feature]/src/` 写逻辑，`[layer]/[feature]/tools/` 写 tool 注册
 4. **Tool 注册示例**：
@@ -89,45 +106,40 @@ export function registerCalendarTools(api: OpenClawPluginApi): void {
       required: ['title', 'startTime', 'endTime'],
     },
     async execute(params, ctx) {
-      // 过渡期：从 old/ 引入；core/ 迁移完成后改路径
-      const { YachClient } = await import('../../../old/yach/src/core/yach-client.js');
-      const client = YachClient.fromAccount(ctx.account as never);
-      const result = await client.calendar.createEvent(params);
-      return { text: JSON.stringify(result, null, 2) };
+      // 调用 core/oapi/ 封装的客户端
+      const { getAccessToken } = await import('../../../core/auth/bot/token.js');
+      const account = ctx.account as import('../../../core/shared/types.js').ResolvedYachAccount;
+      const token = await getAccessToken(account);
+      // ... 调用 core/oapi/ 方法
+      return { text: JSON.stringify(params, null, 2) };
     },
   });
 }
 ```
 
-5. **在 `old/yach/src/tools/index.ts` 注册**（过渡期）
+5. **在 `channel-entry.ts` 的 `registerFull` 里调用** `register[Feature]Tools(api)`
 6. **构建验证**：`npm run build` 无错误
 
 ---
 
-## 调用基建层的正确方式（过渡期）
-
-> 在 `core/` 迁移完成之前，从 `old/yach/src/` 引入基建能力。
+## 调用基建层的正确方式
 
 ```typescript
-// 获取已鉴权的 YachClient（推荐，机器人身份）
-import { YachClient } from '../../../old/yach/src/core/yach-client.js';
-const client = YachClient.fromAccount(ctx.account as never);
-await client.im.sendMessage({ ... });
-await client.calendar.listEvents({ ... });
-
-// 获取账号配置
-import { resolveYachAccount } from '../../../old/yach/src/accounts/index.js';
-const account = resolveYachAccount({ cfg, accountId });
-if (!account.configured) throw new Error('账号未配置');
-
 // 获取 AppToken（机器人身份）
-import { getAccessToken } from '../../../old/yach/src/core/app-token.js';
+import { getAccessToken } from '../../../core/auth/bot/token.js';
 const token = await getAccessToken(account);
 
-// 读取扫码 session（个人身份）
-import { readStoredSession } from '../../../old/yach/src/session-store/store.js';
-const session = await readStoredSession(stateDir);
+// 读取 QR session（个人身份）
+import { loadIdentity } from '../../../core/session/identity.js';
+const identity = await loadIdentity();
+if (!identity) throw new Error('未找到扫码登录凭证，请先运行 openclaw config 完成扫码');
+
+// IM 消息发送（机器人）
+import { sendImMessage } from '../../../robot/im/oapi.js';
+await sendImMessage({ account, conversationId, content });
 ```
+
+> 如需查阅 OAPI 封装细节，参考旧仓库 `src/oapi/` 和 `src/auth-rest/`。
 
 ---
 

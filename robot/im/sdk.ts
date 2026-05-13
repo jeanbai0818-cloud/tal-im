@@ -43,8 +43,8 @@ const NET_STATUS_CONNECTED = 2;
 const NET_DISCONNECT_STATUS = new Set([1, 2, 5]);
 
 function loadSdk(): ClientConstructor {
-  // Compiled output lives at dist/robot/im/ → ../../../../ reaches yach-omni-plugin/
-  const sdkPath = join(__dirname, '..', '..', '..', '..', 'old', 'yach', 'src', 'vendor', 'tal-msg-sdk', 'index.cjs');
+  // Compiled output lives at dist/robot/im/ → ../../../ reaches plugin install root
+  const sdkPath = join(__dirname, '..', '..', '..', 'old', 'yach', 'src', 'vendor', 'tal-msg-sdk', 'index.cjs');
   return require(sdkPath) as ClientConstructor;
 }
 

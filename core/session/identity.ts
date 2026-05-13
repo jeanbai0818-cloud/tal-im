@@ -26,7 +26,7 @@ function validateRaw(v: unknown): v is RawYachSession {
     typeof o.gtoken === 'string' &&
     typeof o.workcode === 'string' && o.workcode.length > 0 &&
     typeof o.deptid === 'string' &&
-    !!user && typeof user.id === 'string' && user.id.length > 0 &&
+    !!user && typeof user.id === 'string' &&
     typeof user.name === 'string'
   );
 }
@@ -57,7 +57,17 @@ export async function loadIdentity(): Promise<YachIdentity | null> {
 
 /** Persist the personal identity to the session file. */
 export async function saveIdentity(identity: YachIdentity): Promise<void> {
-  await fs.writeFile(YACH_SESSION_PATH, JSON.stringify(identity, null, 2), 'utf8');
+  await fs.mkdir(path.dirname(YACH_SESSION_PATH), { recursive: true });
+  const raw: RawYachSession = {
+    token: identity.token,
+    cloudtoken: identity.cloudtoken,
+    gtoken: identity.gtoken,
+    workcode: identity.workcode,
+    deptid: identity.deptid,
+    user: { id: identity.userId, name: identity.name },
+    updatedAt: Date.now(),
+  };
+  await fs.writeFile(YACH_SESSION_PATH, JSON.stringify(raw, null, 2), 'utf8');
 }
 
 /** Delete the stored identity (logout). */

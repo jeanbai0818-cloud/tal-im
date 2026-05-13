@@ -9,6 +9,31 @@
   "exports": "./dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "deploy": "npm run build && openclaw plugins install . --force"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.3.22"
+  },
+  "devDependencies": {
+    "openclaw": "latest",
+    "typescript": "^5.9.3"
+  },
+  "openclaw": {
+    "extensions": ["./dist/index.js"],
+    "setupEntry": "./dist/setup-entry.js",
+    "channel": {
+      "id": "yach",
+      "label": "TAL 知音楼（好未来企业 IM）",
+      "selectionLabel": "TAL 知音楼（好未来企业 IM）",
+      "blurb": "好未来（TAL）企业 IM 知音楼，支持数字伙伴机器人、流式 AI 回复及主动消息推送（文本、图片、文件、视频）。",
+      "docsPath": "/channels/yach",
+      "order": 80
+    },
+    "install": {
+      "npmSpec": "yach",
+      "localPath": ".",
+      "defaultChoice": "local"
+    }
   }
 }

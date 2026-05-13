@@ -30,26 +30,31 @@ export async function getQrCode(): Promise<YachQrCode> {
 export async function pollQrCode(sessionId: string): Promise<YachQrPollState> {
   const raw = await yfetch({
     method: 'GET',
-    path: `/usergroup/qrcode/user/get?randstr=${encodeURIComponent(sessionId)}`,
+    path: '/usergroup/qrcode/user/get',
+    params: { randstr: sessionId },
   }) as Record<string, unknown>;
 
-  // Server-side expiry codes
-  const serverCode = Number(raw.serverCode ?? 0);
-  const serverMsg = String(raw.serverMessage ?? '');
-  if (serverCode === 10035 || serverMsg.includes('过期') || serverMsg.includes('expire')) {
+  const serverCode = Number(raw.code ?? raw.serverCode ?? 0);
+  const serverMsg = String(raw.msg ?? raw.message ?? raw.serverMessage ?? '').trim();
+
+  // Expiry: server code 10035 or message contains expiry keywords
+  if (serverCode === 10035 || /二维码已过期|登录二维码已过期|已过期/.test(serverMsg)) {
     return { status: 'expired', code: serverCode, message: serverMsg };
   }
 
-  const status = Number(raw.status ?? 0);
-
-  if (status === 2) {
-    const identity = extractIdentity(raw);
+  // Confirmed: code=200, or message signals success, or session payload present
+  const confirmedByMsg = /(授权成功|登录成功|确认成功|扫码登录成功|登录完成|已确认|已登录)/.test(serverMsg);
+  const identity = extractIdentity(raw);
+  if (serverCode === 200 || confirmedByMsg || identity) {
     if (identity) return { status: 'confirmed', identity };
-    // Confirmed but identity not yet in payload — caller gives grace period
+    // Server says confirmed but session payload not yet in this response — grace period
     return { status: 'scanned' };
   }
 
-  if (status === 1) return { status: 'scanned' };
+  // Scanned but not yet confirmed
+  const scannedByMsg = /(已扫码|已扫描|待确认|确认登录|请确认|待授权|扫码成功)/.test(serverMsg);
+  if (scannedByMsg) return { status: 'scanned' };
+
   return { status: 'pending' };
 }
 
