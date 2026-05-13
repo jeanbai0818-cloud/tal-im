@@ -50,15 +50,17 @@ OpenClaw 平台的**知音楼（Zhiyinlou/Yach）**全功能插件，面向好�
 
 机器人凭证可访问全员日历、文档、OKR。建议在知音楼开放平台为该数字伙伴应用**仅开启实际用到的 API 权限**，不要申请全量权限。
 
-### 3. 破坏性操作（需要人工确认）
+### 3. 破坏性操作（内置 high-risk 标记）
 
-以下工具执行后**不可撤销**，建议在 agent 配置中要求人工审批后再执行：
+以下工具在插件内已注册为 `risk: high`，OpenClaw 会在 agent 执行前触发审批流程：
 
 - `yach_doc_delete` — 删除文档（不可恢复）
 - `yach_mail_send` — 以个人身份发送邮件
 - `yach_group_remove_members` — 移除群成员
 - `yach_schedule_cancel` — 取消日程
 - `yach_meeting_cancel` — 取消会议室预订
+
+以下工具注册为 `risk: medium`，影响范围较小但仍有副作用：`yach_doc_append`、`yach_personal_doc_append`、`yach_doc_create`、`yach_group_create`、`yach_group_add_members`、`yach_meeting_book`、`yach_schedule_create`。
 
 ### 4. 个人 QR Session 保护
 
@@ -199,7 +201,7 @@ openclaw gateway restart
 | `yach_org_dept` | 按部门名称搜索部门，或列出部门直属成员 |
 | `yach_org_peers` | 查找某人并列出其同部门同事 |
 
-> ⚠️ 标记的工具有破坏性或公开影响，建议在 agent 中配置人工确认后执行。
+> ⚠️ 标记的工具已注册为 `risk: high`，OpenClaw 会在执行前要求审批。
 
 ---
 

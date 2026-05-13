@@ -46,5 +46,29 @@ export default defineChannelPluginEntry({
     registerOrgTools(api);
     registerMailTools(api);
     registerMeetingRoomTools(api);
+
+    // Risk metadata for destructive / externally-visible tools
+    const highRisk = [
+      'yach_doc_delete',
+      'yach_mail_send',
+      'yach_group_remove_members',
+      'yach_schedule_cancel',
+      'yach_meeting_cancel',
+    ];
+    for (const toolName of highRisk) {
+      api.registerToolMetadata({ toolName, risk: 'high' });
+    }
+    const mediumRisk = [
+      'yach_doc_append',
+      'yach_personal_doc_append',
+      'yach_doc_create',
+      'yach_group_create',
+      'yach_group_add_members',
+      'yach_meeting_book',
+      'yach_schedule_create',
+    ];
+    for (const toolName of mediumRisk) {
+      api.registerToolMetadata({ toolName, risk: 'medium' });
+    }
   },
 });

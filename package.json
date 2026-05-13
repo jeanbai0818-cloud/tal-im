@@ -1,6 +1,6 @@
 {
   "name": "yach-tal-im",
-  "version": "2026.5.13-2",
+  "version": "2026.5.13-3",
   "private": true,
   "description": "TAL 知音楼（Yach）新架构插件 — core/personal/robot 三层结构",
   "license": "MIT",
