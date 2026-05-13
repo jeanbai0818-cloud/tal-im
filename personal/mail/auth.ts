@@ -105,6 +105,6 @@ export async function getMailSession(): Promise<MailSession> {
   }
 
   const identity = await loadIdentity();
-  if (!identity) throw new Error('未找到知音楼登录凭证，请先完成扫码登录（openclaw yach-aio login）');
+  if (!identity) throw new Error('未找到知音楼登录凭证，请先完成扫码登录（openclaw config）');
   return bootstrapMailSession(identity);
 }

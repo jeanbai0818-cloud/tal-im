@@ -18,7 +18,7 @@ export type PersonalCreds = {
 export async function resolvePersonalCreds(): Promise<PersonalCreds> {
   const identity = await loadIdentity();
   if (!identity) {
-    throw new Error('未找到知音楼个人登录凭证，请先完成扫码登录（openclaw yach-aio login）');
+    throw new Error('未找到知音楼个人登录凭证，请先完成扫码登录（openclaw config）');
   }
   const cfg = getYachRuntime().config.loadConfig();
   const accounts = listActiveAccounts(cfg);

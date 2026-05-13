@@ -60,7 +60,7 @@ let _deviceId: string | undefined;
 /** Stable per-installation device ID: SHA-256 of platform fingerprint, 32 hex chars. */
 export function deviceId(): string {
   if (!_deviceId) {
-    const seed = `yach-aio|${process.platform}|${hostname()}`;
+    const seed = `yach|${process.platform}|${hostname()}`;
     _deviceId = createHash('sha256').update(seed).digest('hex').slice(0, 32);
   }
   return _deviceId;

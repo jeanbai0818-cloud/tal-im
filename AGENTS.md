@@ -153,15 +153,72 @@ await sendImMessage({ account, conversationId, content });
 
 ---
 
+## 开发测试网关（gateway-TAL-IM）
+
+> **为什么要用独立网关**：将 `yach-tal-im` 的开发测试与生产 openclaw 环境完全隔离，避免污染已有 agent、频道、插件配置。
+
+### 目录结构
+
+```
+~/Desktop/gateway-TAL-IM/
+  state/     ← 独立 openclaw 状态目录（openclaw.json、extensions、agents 等）
+```
+
+### 一次性初始化
+
+```bash
+# 1. 安装插件到 dev 状态目录
+OPENCLAW_STATE_DIR=~/Desktop/gateway-TAL-IM/state npm run deploy
+
+# 2. 配置频道凭证（AppKey/AppSecret + 扫码登录）
+OPENCLAW_STATE_DIR=~/Desktop/gateway-TAL-IM/state openclaw config
+```
+
+### 启动开发网关（前台运行，按 Ctrl+C 停止）
+
+```bash
+OPENCLAW_STATE_DIR=~/Desktop/gateway-TAL-IM/state \
+  openclaw gateway --port 19002 --auth none
+```
+
+### 每次代码更新后重新部署
+
+```bash
+# 重新构建 + 安装到 dev 状态目录，然后重启网关
+OPENCLAW_STATE_DIR=~/Desktop/gateway-TAL-IM/state npm run deploy
+# 之后重启上面的 gateway 进程（Ctrl+C 再启动）
+```
+
+### 测试命令（指向 dev 网关）
+
+```bash
+# 查看频道状态
+OPENCLAW_STATE_DIR=~/Desktop/gateway-TAL-IM/state openclaw channels status
+
+# 发送 agent 消息
+OPENCLAW_STATE_DIR=~/Desktop/gateway-TAL-IM/state \
+  openclaw agent --agent <agentId> --message "帮我打一个下班卡"
+
+# gateway call 测试
+openclaw gateway call \
+  --url ws://127.0.0.1:19002 \
+  --auth none \
+  --expect-final --json --timeout 60000 \
+  agent --params '{"agentId":"<id>","message":"<消息>","idempotencyKey":"test-1"}'
+```
+
+> **注意**：不要省略 `OPENCLAW_STATE_DIR`，否则命令默认操作 `~/.openclaw/`（生产环境）。
+
+---
+
 ## 常用命令
 
 ```bash
-npm run build                  # 编译
-npm run typecheck              # 类型检查
-npm test                       # 测试
-npm run plugin:install:link    # 本地构建 + 安装
-openclaw gateway restart       # 重启网关
-openclaw channels status       # 查看频道状态
+npm run build               # 编译
+npm run typecheck           # 类型检查
+npm run deploy              # 编译 + 安装到生产 ~/.openclaw/
+openclaw gateway restart    # 重启生产网关
+openclaw channels status    # 查看生产频道状态
 ```
 
 ---

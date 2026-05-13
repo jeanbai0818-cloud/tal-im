@@ -1,0 +1,31 @@
+# chat-dm/ — 个人 DM 历史
+
+## 功能说明
+
+以当前扫码登录用户身份查询个人 DM（私聊）历史消息、会话列表和消息摘要。
+
+## 工具列表
+
+> 🚧 **待实现** — tools/ 目录尚为空，工具注册尚未完成。
+
+计划工具：
+
+| 工具名（规划中） | 说明 |
+|-----------------|------|
+| `yach_dm_conversations` | 获取个人会话列表（最近联系人） |
+| `yach_dm_history` | 拉取与指定用户的历史消息记录 |
+
+## 测试方法
+
+> 待工具实现后补充。
+
+```bash
+# 示例（功能上线后）
+openclaw agent --agent main --message "查一下我最近和张三的聊天记录" 2>&1
+```
+
+## 实现状态
+
+🚧 待实现 — `src/` 和 `tools/` 均为空占位
+
+旧实现参考：[GitLab `src/chat-history/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/src/chat-history)

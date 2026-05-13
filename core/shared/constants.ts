@@ -34,8 +34,3 @@ export const DEFAULT_ACCOUNT_ID = 'default';
 /** Default Channel SDK app ID */
 export const DEFAULT_CHANNEL_APP_ID = 'yach20001';
 
-/** Primary CLI command token for this plugin */
-export const PLUGIN_COMMAND = 'yach-aio';
-
-/** Legacy command tokens from older plugin versions */
-export const LEGACY_PLUGIN_COMMANDS = ['yach'] as const;

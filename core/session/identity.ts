@@ -44,7 +44,7 @@ function toIdentity(raw: RawYachSession): YachIdentity {
   };
 }
 
-/** Load the personal identity from ~/.openclaw/yach-aio/session/current.json. Returns null if absent or invalid. */
+/** Load the personal identity from ~/.openclaw/identity/session/current.json. Returns null if absent or invalid. */
 export async function loadIdentity(): Promise<YachIdentity | null> {
   try {
     const raw = await fs.readFile(YACH_SESSION_PATH, 'utf8');

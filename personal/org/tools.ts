@@ -23,7 +23,7 @@ export function registerOrgTools(api: OpenClawPluginApi): void {
     label: '知音楼通讯录搜索',
     description:
       '从本地通讯录快照中搜索员工（按姓名、工号、部门关键字）。' +
-      '若快照不存在，提示用户先执行 `openclaw yach-aio contacts sync` 同步通讯录。',
+      '若快照不存在，提示用户先执行 `openclaw yach contacts sync` 同步通讯录。',
     parameters: {
       type: 'object',
       properties: {
@@ -38,7 +38,7 @@ export function registerOrgTools(api: OpenClawPluginApi): void {
         const snap = await loadSnapshot();
         if (!snap) {
           return textResult(
-            '本地通讯录快照不存在，请先运行: openclaw yach-aio contacts sync',
+            '本地通讯录快照不存在，请先运行: openclaw yach contacts sync',
             null,
           );
         }
@@ -81,7 +81,7 @@ export function registerOrgTools(api: OpenClawPluginApi): void {
         const snap = await loadSnapshot();
         if (!snap) {
           return textResult(
-            '本地通讯录快照不存在，请先运行: openclaw yach-aio contacts sync',
+            '本地通讯录快照不存在，请先运行: openclaw yach contacts sync',
             null,
           );
         }
@@ -119,7 +119,7 @@ export function registerOrgTools(api: OpenClawPluginApi): void {
         const snap = await loadSnapshot();
         if (!snap) {
           return textResult(
-            '本地通讯录快照不存在，请先运行: openclaw yach-aio contacts sync',
+            '本地通讯录快照不存在，请先运行: openclaw yach contacts sync',
             null,
           );
         }

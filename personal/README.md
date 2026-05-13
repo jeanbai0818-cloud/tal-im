@@ -2,13 +2,21 @@
 
 **依赖扫码登录（QR session）。** 这里的功能以员工个人身份操作知音楼，凭证来自 `~/.openclaw/identity`。
 
+旧实现参考：[GitLab yach-omni-plugin](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin)
+
 ## 子目录
 
-| 目录 | 职责 | 迁移来源 |
-|------|------|----------|
-| `attendance/` | 考勤打卡、月度/半年统计 | `old/src/attendance-bridge/` |
-| `chat-dm/` | 个人 DM 历史、会话列表、消息摘要 | `old/src/chat-history/` 等 |
-| `send-as-self/` | 以个人身份发送消息 | `old/src/message-send/` |
+| 目录 | 职责 | 工具数 | 状态 |
+|------|------|--------|------|
+| `attendance/` | 考勤打卡、环境诊断 | 2 | ✅ 已实现 |
+| `chat-dm/` | 个人 DM 历史、会话列表、消息摘要 | — | 🚧 待实现 |
+| `docs/` | 文档读取、内容追加（个人身份） | 2 | ✅ 已实现 |
+| `mail/` | 邮件发送、收件箱查看、搜索（个人身份） | 3 | ✅ 已实现 |
+| `meeting-room/` | 会议室查询、预订、取消（个人身份） | 3 | ✅ 已实现 |
+| `okr/` | OKR 列表查询（个人身份） | 1 | ✅ 已实现 |
+| `org/` | 通讯录搜索、部门查询、同事查询 | 3 | ✅ 已实现 |
+| `send-as-self/` | 以个人身份发送 IM 消息 | — | 🚧 待实现 |
+| `weekly/` | 周报列表查询（个人身份） | 1 | ✅ 已实现 |
 
 ## 功能目录结构
 
@@ -28,6 +36,4 @@
 
 字段：`token`, `refreshToken`, `tokenExpiry`, `userId`, `workcode`, `name`, `createdAt`
 
-## 当前状态
-
-> **开发中。** 代码尚未迁移，旧实现在 `old/src/` 对应目录。
+QR 登录：`openclaw channels login`
