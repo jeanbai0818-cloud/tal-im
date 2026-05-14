@@ -2,7 +2,6 @@
 
 **依赖机器人凭证（AppKey/AppSecret）。** 这里的功能以数字伙伴机器人身份操作知音楼，凭证来自 `openclaw.json → channels.yach`。
 
-旧实现参考：[GitLab yach-omni-plugin](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin)
 
 ## 子目录
 

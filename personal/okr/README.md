@@ -42,4 +42,3 @@ openclaw agent --agent main --message "查一下技术部本月的 OKR 列表" 2
 
 ✅ 已实现
 
-旧实现参考：[GitLab `modules/okr/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/okr)

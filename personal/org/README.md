@@ -57,4 +57,3 @@ openclaw agent --agent main --message "查一下工号 A001234 的同部门同�
 
 ✅ 已实现
 
-旧实现参考：[GitLab `modules/org/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/org)

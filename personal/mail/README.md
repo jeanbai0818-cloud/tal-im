@@ -53,4 +53,3 @@ openclaw agent --agent main --message "在知音楼邮箱里搜一下主题包�
 
 ✅ 已实现
 
-旧实现参考：[GitLab](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin)

@@ -80,4 +80,3 @@ openclaw agent --agent main --message "把工号 A001234 加为文档 guid-xxxx 
 
 ✅ 已实现
 
-旧实现参考：[GitLab `modules/doc/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/doc)

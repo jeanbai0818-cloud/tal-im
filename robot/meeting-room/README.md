@@ -31,4 +31,3 @@ openclaw agent --agent main --message "以机器人身份查一下明天下午2�
 
 🚧 待实现 — `src/` 和 `tools/` 均为空占位
 
-旧实现参考：[GitLab `modules/meeting-room/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/meeting-room)

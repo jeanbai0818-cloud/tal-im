@@ -28,4 +28,3 @@ openclaw agent --agent main --message "查一下我最近和张三的聊天记�
 
 🚧 待实现 — `src/` 和 `tools/` 均为空占位
 
-旧实现参考：[GitLab `src/chat-history/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/src/chat-history)

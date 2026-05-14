@@ -42,4 +42,3 @@ openclaw agent --agent main --message "诊断一下知音楼考勤打卡环境�
 
 ✅ 已实现
 
-旧实现参考：[GitLab `src/attendance-bridge/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/src/attendance-bridge)

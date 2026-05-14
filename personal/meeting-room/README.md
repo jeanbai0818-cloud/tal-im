@@ -64,4 +64,3 @@ openclaw agent --agent main --message "取消会议室预订，预订ID是 12345
 
 ✅ 已实现
 
-旧实现参考：[GitLab `modules/meeting-room/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/meeting-room)

@@ -46,4 +46,3 @@ openclaw agent --agent main --message "查一下产品部2026年5月份的周报
 
 ✅ 已实现
 
-旧实现参考：[GitLab `modules/weekly/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/weekly)

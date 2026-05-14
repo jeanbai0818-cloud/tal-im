@@ -2,7 +2,6 @@
 
 **依赖扫码登录（QR session）。** 这里的功能以员工个人身份操作知音楼，凭证来自 `~/.openclaw/identity`。
 
-旧实现参考：[GitLab yach-omni-plugin](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin)
 
 ## 子目录
 

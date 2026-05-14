@@ -6,10 +6,7 @@
 
 ## 参考源代码（重要）
 
-遇到任何 API 行为不确定、实现细节不明、或 bug 排查困难时，**先去旧代码看实现**，不要猜测：
-
-> **旧版插件 GitLab 仓库：**
-> `https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin`
+遇到任何 API 行为不确定、实现细节不明、或 bug 排查困难时，**先去旧代码看实现**，不要猜测。旧版实现已归档至本仓库 `old/` 目录：
 
 关键目录映射（旧 → 新）：
 
@@ -21,8 +18,6 @@
 | `src/shared/types.ts` | `core/shared/types.ts` | 核心类型定义 |
 | `src/shared/constants.ts` | `core/shared/constants.ts` | 常量（API base URL 等）|
 | `modules/*/` | `robot/*/` | 机器人身份业务功能 |
-
-> 使用 `git clone --depth=1 https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin /tmp/yach-omni-plugin` 获取只读副本（不要污染工作区）。
 
 ---
 

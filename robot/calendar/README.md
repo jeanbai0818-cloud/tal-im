@@ -70,4 +70,3 @@ openclaw agent --agent main --message "取消日程 ID xxx" 2>&1
 
 ✅ 已实现
 
-旧实现参考：[GitLab `modules/schedule/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/schedule)

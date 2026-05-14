@@ -46,4 +46,3 @@ openclaw agent --agent main --message "有哪些团队周报还没读？" 2>&1
 
 ✅ 已实现
 
-旧实现参考：[GitLab `modules/weekly/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/weekly)

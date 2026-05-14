@@ -77,4 +77,3 @@ openclaw agent --agent main --message "查一下群 xxx 的基本信息和成员
 
 尚未实现：streaming card（流式消息卡片）、typing indicator、COS 文件上传
 
-旧实现参考：[GitLab `modules/msg/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/msg)

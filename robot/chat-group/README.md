@@ -62,4 +62,3 @@ openclaw agent --agent main --message "把用户 yach67890 加入群 xxx，操�
 
 ✅ 已实现
 
-旧实现参考：[GitLab](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin)

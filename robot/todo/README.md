@@ -31,4 +31,3 @@ openclaw agent --agent main --message "查一下我当前有哪些未完成的�
 
 🚧 待实现 — `src/` 和 `tools/` 均为空占位
 
-旧实现参考：[GitLab `modules/todo/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/todo)

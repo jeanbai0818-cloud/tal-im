@@ -45,4 +45,3 @@ openclaw agent --agent main --message "查一下知音楼用户 yach12345 的详
 
 ✅ 已实现
 
-旧实现参考：[GitLab `modules/org/`](https://haoweilai.gitlab.20020306.xyz:5890/root/yach-omni-plugin/-/tree/main/modules/org)
