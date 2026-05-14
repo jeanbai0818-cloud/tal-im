@@ -37,6 +37,7 @@ OpenClaw 平台的知音楼（Yach）全功能插件，面向好未来（TAL Edu
 
 ## 安全配置
 
-- 默认 `dmPolicy: pairing`（配对模式），陌生用户须通过 `openclaw channels approve` 审批后才能使用
+- 默认 `dmPolicy: pairing`（私信配对模式），陌生用户须通过 `openclaw channels approve` 审批后才能使用
+- 默认 `groupPolicy: pairing`（群聊配对模式），新群须管理员审批后机器人才开始响应
 - 破坏性操作（删除文档、发送邮件、移除群成员等）已注册为 `risk: high`，执行前需审批
 - 个人 QR session 存储在 `~/.openclaw/identity/`，请确保目录权限为 `700`

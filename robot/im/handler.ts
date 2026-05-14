@@ -104,7 +104,7 @@ export async function handleInboundMessage(params: {
   // Access control
   const accountCfg = account.config;
   if (isGroup) {
-    const groupPolicy = accountCfg.groupPolicy ?? 'open';
+    const groupPolicy = accountCfg.groupPolicy ?? 'pairing';
     if (groupPolicy === 'disabled') {
       logger.info('[yach] group message rejected: groupPolicy=disabled');
       return;
@@ -113,6 +113,25 @@ export async function handleInboundMessage(params: {
       const allowed = (accountCfg.groupAllowFrom ?? []).map(String);
       if (!allowed.includes('*') && !allowed.includes(conversationId)) {
         logger.info(`[yach] group ${conversationId} not in groupAllowFrom, ignored`);
+        return;
+      }
+    }
+    if (groupPolicy === 'pairing') {
+      const core2 = getYachRuntime();
+      const configGroupAllowFrom = (accountCfg.groupAllowFrom ?? []).map(String);
+      const storeAllowFrom = await core2.channel.pairing
+        .readAllowFromStore({ channel: 'yach', accountId: account.accountId })
+        .catch(() => [] as string[]);
+      const effectiveAllowFrom = [...configGroupAllowFrom, ...storeAllowFrom];
+      const allowed = effectiveAllowFrom.includes('*') || effectiveAllowFrom.includes(conversationId);
+      if (!allowed) {
+        await core2.channel.pairing.upsertPairingRequest({
+          channel: 'yach',
+          accountId: account.accountId,
+          id: conversationId,
+          meta: { name: conversationId },
+        }).catch(() => {});
+        logger.info(`[yach] group ${conversationId} pending approval (groupPolicy=pairing)`);
         return;
       }
     }

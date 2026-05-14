@@ -199,7 +199,7 @@ export const yachPlugin: ChannelPlugin<ResolvedYachAccount> = {
       resolveDmAllowFrom: (account) => account.config.allowFrom,
       resolveGroupAllowFrom: (account) => account.config.groupAllowFrom,
       resolveDmPolicy: (account) => account.config.dmPolicy ?? 'pairing',
-      resolveGroupPolicy: (account) => account.config.groupPolicy ?? 'open',
+      resolveGroupPolicy: (account) => account.config.groupPolicy ?? 'pairing',
     }),
   },
 

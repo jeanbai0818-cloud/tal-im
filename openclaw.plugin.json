@@ -47,7 +47,7 @@
           },
           "groupPolicy": {
             "type": "string",
-            "enum": ["open", "allowlist", "disabled"]
+            "enum": ["open", "pairing", "allowlist", "disabled"]
           },
           "groupAllowFrom": {
             "type": "array",
