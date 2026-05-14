@@ -1,8 +1,8 @@
 {
   "name": "yach-tal-im",
-  "version": "2026.5.13-7",
+  "version": "2026.5.14",
   "private": true,
-  "description": "TAL 知音楼（Yach）新架构插件 — core/personal/robot 三层结构",
+  "description": "TAL 知音楼（Yach）企业 IM 插件。需要凭证：AppKey + AppSecret（机器人身份，必须）；个人 QR session（个人身份工具，可选）。主凭证：AppKey（channels.yach.appKey）。支持机器人和个人双身份，覆盖 IM、日历、文档、OKR、周报、考勤、会议室、邮件等场景。",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -33,7 +33,7 @@
       "id": "yach",
       "label": "TAL 知音楼（好未来企业 IM）",
       "selectionLabel": "TAL 知音楼（好未来企业 IM）",
-      "blurb": "好未来（TAL）企业 IM 知音楼，支持数字伙伴机器人、流式 AI 回复及主动消息推送（文本、图片、文件、视频）。",
+      "blurb": "好未来（TAL）企业 IM 知音楼。主凭证：AppKey + AppSecret（必须）；个人 QR session（可选）。支持数字伙伴机器人、流式 AI 回复及主动消息推送（文本、图片、文件、视频）。",
       "docsPath": "/channels/yach",
       "order": 80
     },
